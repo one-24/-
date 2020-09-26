@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var p = {
+        //     "id": "007",
+        //     "name": "张猩猩",
+        //     "hobby": new Array("睡觉", "欺负老杨", "逛gai")  //这是引用类型
+        // }
+        // 把这个对象复制一份
+        // 浅拷贝 
+        // var p2 = {};
+        // for (let key in p) {
+        //     p2[key] = p[key];
+        // }
+        // p2.hobby[0] = "吃饭";
+        // console.log(p2);
+        // console.log(p);
+
+
+        // 深拷贝(起步)
+        // var p2 = {};
+        // for (let key in p) {
+        //     if (typeof p[key] == 'object') {
+        //         p2[key] = [];//因为,我上面写的是数组,所以,暂时赋值一个空数组.
+        //         for (let i in p[key]) {
+        //             p2[key][i] = p[key][i]
+        //         }
+        //     } else {
+        //         p2[key] = p[key];
+        //     }
+        // }
+        // p2.hobby[0] = "吃饭";
+        // console.log(p2);
+        // console.log(p);
+
+
+        // 深拷贝（最终）
+        //给数组对象增加一个方法，用来复制自己
+        Array.prototype.copyself = function () {
+            let arr = new Array();
+            for (let i in this) {
+                arr[i] = this[i]
+            }
+            return arr;
+        }
+
+        var p = {
+            "id": "007",
+            "name": "刘德华",
+            "books": new Array("三国演义", "红楼梦", "水浒传")//这是引用类型
+        }
+
+        function copyObj(obj) {
+            let newObj = {};
+            for (let key in obj) {
+                if (typeof obj[key] == 'object') {//如:key是wife,引用类型,那就递归
+                    newObj[key] = obj[key].copyself();
+                } else {//基本类型,直接赋值
+                    newObj[key] = obj[key];
+                }
+            }
+            return newObj;
+        }
+
+        var pNew = copyObj(p);
+        pNew.books[0] = "四国";
+        console.log(pNew);
+        console.log(p); 
+    </script>
+</body>
+
+</html>
